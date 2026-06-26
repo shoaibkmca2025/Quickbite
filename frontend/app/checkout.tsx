@@ -50,6 +50,9 @@ export default function Checkout() {
   const [method, setMethod] = useState('upi');
   const [bill, setBill] = useState<Bill | null>(null);
   const [placing, setPlacing] = useState(false);
+  // Remember an already-created order so a payment retry pays the SAME order
+  // instead of creating a duplicate (PRD NFR-REL-01).
+  const [pendingOrderId, setPendingOrderId] = useState<string | null>(null);
 
   const items = useMemo(
     () =>
@@ -85,6 +88,11 @@ export default function Checkout() {
   useEffect(() => {
     fetchQuote();
   }, [fetchQuote]);
+
+  // If the order inputs change, any half-created order is stale — create a fresh one next time.
+  useEffect(() => {
+    setPendingOrderId(null);
+  }, [items, method, selectedAddr, instructions, appliedCoupon]);
 
   // Show available offers so they're visible & one-tap applicable (PRD FR-OFF-01).
   useEffect(() => {
@@ -129,24 +137,30 @@ export default function Checkout() {
     }
     setPlacing(true);
     try {
-      const createRes = await api.post<Order>('/orders', {
-        restaurantId: cart.restaurantId,
-        items,
-        couponCode: appliedCoupon,
-        paymentMethod: method,
-        address: { ...selectedAddr, instructions },
-      });
-      const order = createRes.data;
+      // Reuse an order from a previous failed attempt so we never create a duplicate.
+      let orderId = pendingOrderId;
+      if (!orderId) {
+        const createRes = await api.post<Order>('/orders', {
+          restaurantId: cart.restaurantId,
+          items,
+          couponCode: appliedCoupon,
+          paymentMethod: method,
+          address: { ...selectedAddr, instructions },
+        });
+        orderId = createRes.data._id;
+        setPendingOrderId(orderId);
+      }
 
       if (method !== 'cod') {
-        // Mock payment (PRD FR-PAY-01/03) with an idempotency key.
-        await api.post(`/orders/${order._id}/pay`, {
-          idempotencyKey: `${order._id}-${Date.now()}`,
+        // Mock payment (PRD FR-PAY-01/03). Stable idempotency key => a retry of the same
+        // order pays once, never twice (NFR-REL-01).
+        await api.post(`/orders/${orderId}/pay`, {
+          idempotencyKey: `${orderId}-${method}`,
         });
       }
 
       cart.clear();
-      router.replace(`/order/${order._id}`);
+      router.replace(`/order/${orderId}`);
     } catch (e) {
       Alert.alert('Order failed', e instanceof Error ? e.message : 'Try again');
     } finally {

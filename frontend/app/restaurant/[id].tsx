@@ -8,6 +8,7 @@ import {
   StyleSheet,
   ActivityIndicator,
   Modal,
+  Alert,
 } from 'react-native';
 import { useLocalSearchParams, useRouter, Stack } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
@@ -41,7 +42,20 @@ export default function RestaurantScreen() {
 
   const addToCart = (item: MenuItem, options: { groupName: string; label: string; priceDelta: number }[] = []) => {
     if (!data) return;
-    cart.add(data.restaurant._id, data.restaurant.name, item, options);
+    const doAdd = () => cart.add(data.restaurant._id, data.restaurant.name, item, options);
+    // Single-restaurant cart: warn before replacing items from another restaurant (PRD FR-CART-02).
+    if (cart.restaurantId && cart.restaurantId !== data.restaurant._id && cart.lines.length > 0) {
+      Alert.alert(
+        'Start a new cart?',
+        `Your cart has items from ${cart.restaurantName}. Adding this will clear those items.`,
+        [
+          { text: 'Cancel', style: 'cancel' },
+          { text: 'Clear & Add', style: 'destructive', onPress: doAdd },
+        ]
+      );
+      return;
+    }
+    doAdd();
   };
 
   const onAdd = (item: MenuItem) => {
