@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>QuickBite | Rider Registration</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Shared Style Guidance Tokens -->
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "on-tertiary": "#ffffff",
+                    "tertiary-container": "#1ba75a",
+                    "surface-container-highest": "#e2e2e2",
+                    "surface-bright": "#f9f9f9",
+                    "surface-dim": "#dadada",
+                    "error-container": "#ffdad6",
+                    "outline-variant": "#e4beb3",
+                    "on-secondary-container": "#636262",
+                    "outline": "#8f7067",
+                    "background": "#f9f9f9",
+                    "surface-container": "#eeeeee",
+                    "tertiary": "#006d37",
+                    "surface-container-lowest": "#ffffff",
+                    "on-surface-variant": "#5b4038",
+                    "secondary-fixed": "#e5e2e1",
+                    "inverse-surface": "#2f3131",
+                    "primary-container": "#ff5a1f",
+                    "surface-variant": "#e2e2e2",
+                    "on-primary": "#ffffff",
+                    "primary-fixed": "#ffdbd0",
+                    "on-primary-container": "#541400",
+                    "on-primary-fixed-variant": "#852400",
+                    "surface-tint": "#ae3200",
+                    "on-surface": "#1a1c1c",
+                    "inverse-primary": "#ffb59e",
+                    "primary-fixed-dim": "#ffb59e",
+                    "on-tertiary-fixed-variant": "#005228",
+                    "inverse-on-surface": "#f1f1f1",
+                    "on-secondary-fixed-variant": "#474746",
+                    "surface": "#f9f9f9",
+                    "secondary-container": "#e2dfde",
+                    "tertiary-fixed": "#7efba4",
+                    "on-primary-fixed": "#3a0b00",
+                    "on-error": "#ffffff",
+                    "on-background": "#1a1c1c",
+                    "error": "#ba1a1a",
+                    "secondary-fixed-dim": "#c8c6c5",
+                    "primary": "#ae3200",
+                    "surface-container-low": "#f3f3f3",
+                    "on-tertiary-fixed": "#00210c",
+                    "surface-container-high": "#e8e8e8",
+                    "secondary": "#5f5e5e",
+                    "on-tertiary-container": "#003216",
+                    "tertiary-fixed-dim": "#61de8a",
+                    "on-secondary": "#ffffff",
+                    "on-error-container": "#93000a",
+                    "on-secondary-fixed": "#1c1b1b"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "md": "16px",
+                    "xs": "4px",
+                    "container-margin": "20px",
+                    "xl": "40px",
+                    "sm": "8px",
+                    "gutter": "16px",
+                    "lg": "24px"
+            },
+            "fontFamily": {
+                    "headline-lg-mobile": ["Plus Jakarta Sans"],
+                    "headline-md": ["Plus Jakarta Sans"],
+                    "body-md": ["Plus Jakarta Sans"],
+                    "label-md": ["Plus Jakarta Sans"],
+                    "body-lg": ["Plus Jakarta Sans"],
+                    "headline-xl": ["Plus Jakarta Sans"],
+                    "headline-lg": ["Plus Jakarta Sans"],
+                    "label-sm": ["Plus Jakarta Sans"]
+            },
+            "fontSize": {
+                    "headline-lg-mobile": ["24px", {"lineHeight": "32px", "fontWeight": "700"}],
+                    "headline-md": ["20px", {"lineHeight": "28px", "fontWeight": "700"}],
+                    "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                    "label-md": ["14px", {"lineHeight": "20px", "fontWeight": "600"}],
+                    "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                    "headline-xl": ["40px", {"lineHeight": "48px", "letterSpacing": "-0.02em", "fontWeight": "800"}],
+                    "headline-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                    "label-sm": ["12px", {"lineHeight": "16px", "fontWeight": "500"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .step-transition {
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .vehicle-card:has(input:checked) {
+            border-color: #ae3200;
+            background-color: #ffdbd0;
+        }
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: #f9f9f9;
+        }
+        /* Custom Ambient Shadows */
+        .card-elevation {
+            box-shadow: 0 4px 12px rgba(0,0,0,0.04);
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background text-on-background min-h-screen flex flex-col">
+<!-- TopAppBar Mapping -->
+<header class="w-full top-0 sticky z-50 bg-background dark:bg-background h-16 flex items-center justify-between px-container-margin max-w-7xl mx-auto">
+<div class="flex items-center gap-md">
+<button class="active:scale-95 transition-transform hover:opacity-80 transition-opacity">
+<span class="material-symbols-outlined text-primary">arrow_back</span>
+</button>
+<h1 class="font-headline-xl text-headline-xl text-primary dark:text-primary-fixed-dim tracking-tight">QuickBite</h1>
+</div>
+<div class="hidden md:flex gap-lg items-center">
+<span class="font-label-md text-label-md text-secondary">Help</span>
+<span class="font-label-md text-label-md text-secondary">Login</span>
+</div>
+</header>
+<main class="flex-grow flex items-center justify-center px-container-margin py-xl">
+<div class="w-full max-w-lg bg-surface-container-lowest rounded-xl p-lg card-elevation">
+<!-- Progress Indicator -->
+<div class="mb-xl">
+<div class="flex justify-between items-end mb-sm">
+<span class="font-headline-md text-headline-md text-on-surface">Step 1 of 3</span>
+<span class="font-label-md text-label-md text-primary">Personal Details</span>
+</div>
+<div class="h-2 w-full bg-surface-container rounded-full overflow-hidden">
+<div class="h-full bg-primary-container w-1/3 rounded-full step-transition"></div>
+</div>
+</div>
+<!-- Form Title -->
+<div class="mb-lg">
+<h2 class="font-headline-lg text-headline-lg text-on-surface mb-xs">Join our fleet</h2>
+<p class="font-body-md text-body-md text-secondary">Complete your profile to start delivering with QuickBite.</p>
+</div>
+<form class="space-y-lg" onsubmit="event.preventDefault();">
+<!-- Full Name -->
+<div class="space-y-xs">
+<label class="font-label-md text-label-md text-on-surface-variant block">Full Name</label>
+<div class="relative group">
+<input class="w-full bg-surface-container-low border-none rounded-lg px-md py-md focus:ring-2 focus:ring-primary-container font-body-md transition-all" placeholder="Enter your full name" type="text"/>
+</div>
+</div>
+<!-- Mobile Number -->
+<div class="space-y-xs">
+<label class="font-label-md text-label-md text-on-surface-variant block">Mobile Number</label>
+<div class="flex gap-sm">
+<div class="bg-surface-container-low px-md py-md rounded-lg font-body-md flex items-center text-secondary">+1</div>
+<input class="flex-grow bg-surface-container-low border-none rounded-lg px-md py-md focus:ring-2 focus:ring-primary-container font-body-md transition-all" placeholder="(555) 000-0000" type="tel"/>
+</div>
+</div>
+<!-- Vehicle Type -->
+<div class="space-y-xs">
+<label class="font-label-md text-label-md text-on-surface-variant block">Vehicle Type</label>
+<div class="grid grid-cols-3 gap-md">
+<!-- Scooter -->
+<label class="vehicle-card flex flex-col items-center justify-center p-md border-2 border-surface-container-high rounded-xl cursor-pointer hover:border-primary-container transition-all group">
+<input class="hidden" name="vehicle" type="radio" value="scooter"/>
+<span class="material-symbols-outlined text-secondary group-hover:text-primary mb-xs" style="font-size: 32px;">moped</span>
+<span class="font-label-sm text-label-sm text-on-surface">Scooter</span>
+</label>
+<!-- Bicycle -->
+<label class="vehicle-card flex flex-col items-center justify-center p-md border-2 border-surface-container-high rounded-xl cursor-pointer hover:border-primary-container transition-all group">
+<input class="hidden" name="vehicle" type="radio" value="bicycle"/>
+<span class="material-symbols-outlined text-secondary group-hover:text-primary mb-xs" style="font-size: 32px;">pedal_bike</span>
+<span class="font-label-sm text-label-sm text-on-surface">Bicycle</span>
+</label>
+<!-- Car -->
+<label class="vehicle-card flex flex-col items-center justify-center p-md border-2 border-surface-container-high rounded-xl cursor-pointer hover:border-primary-container transition-all group">
+<input class="hidden" name="vehicle" type="radio" value="car"/>
+<span class="material-symbols-outlined text-secondary group-hover:text-primary mb-xs" style="font-size: 32px;">directions_car</span>
+<span class="font-label-sm text-label-sm text-on-surface">Car</span>
+</label>
+</div>
+</div>
+<!-- License Number -->
+<div class="space-y-xs">
+<label class="font-label-md text-label-md text-on-surface-variant block">License Number</label>
+<input class="w-full bg-surface-container-low border-none rounded-lg px-md py-md focus:ring-2 focus:ring-primary-container font-body-md transition-all" placeholder="ID or License #" type="text"/>
+</div>
+<!-- Legal/Helper Text -->
+<p class="font-label-sm text-label-sm text-secondary italic">
+                    Your information is protected by our encryption protocols and will only be used for verification.
+                </p>
+<!-- Next Button -->
+<button class="w-full bg-primary-container text-on-primary py-lg rounded-full font-headline-md text-headline-md hover:opacity-90 active:scale-95 transition-all shadow-lg" type="submit">
+                    Next Step
+                </button>
+</form>
+</div>
+</main>
+<!-- Side Content / Hero Image for Desktop (Asymmetric Layout) -->
+<aside class="hidden lg:fixed lg:right-0 lg:top-0 lg:w-1/3 lg:h-full lg:flex items-center justify-center p-xl">
+<div class="relative w-full h-4/5 rounded-3xl overflow-hidden shadow-2xl">
+<div class="absolute inset-0 bg-gradient-to-t from-primary/40 to-transparent z-10"></div>
+<img class="w-full h-full object-cover" data-alt="A professional courier rider wearing a branded orange jacket standing next to a sleek modern scooter in a sunny urban street environment. The scene is bright and airy, using a high-end commercial photography style with soft bokeh in the background. The aesthetic is clean, minimalist, and exudes a sense of speed and reliability consistent with a premium logistics brand." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAAbHq-MTJxVstRHkV08azzC1En_ZoACx1G39ysn7nife6hh2P4CAGG37NYKXRmQZxyEjzxsxun4s_FbvOS8Dz8ZdmAZLRQixnbL57eqZVgdJQUOEtrpKbBMJPsCm2aq-c7b07bO_i6xDnVhGfKeOlrl8GBpTq0yJb1CwGM-1S6IbAJb-6Pc_nmke1Szi4agzuMyNmv8MCAKoTNQwy4PpMRZRhpmTQmM_6YHP_vtQSit6_HE03a7XPxC5yGSB6fkDiAZHdKr3q-dW_7"/>
+<div class="absolute bottom-lg left-lg right-lg z-20 text-white">
+<h3 class="font-headline-lg text-headline-lg mb-sm">Deliver with freedom.</h3>
+<p class="font-body-md text-body-md opacity-90">Set your own schedule, earn competitive rates, and be part of our growing community.</p>
+</div>
+</div>
+</aside>
+<!-- Footer Mapping -->
+<footer class="w-full bg-surface-container-low dark:bg-surface-dim border-t border-outline-variant dark:border-outline mt-auto">
+<div class="flex flex-col md:flex-row justify-between items-center py-lg px-container-margin w-full max-w-7xl mx-auto">
+<div class="flex flex-col md:flex-row items-center gap-md mb-md md:mb-0">
+<span class="font-headline-md text-headline-md text-primary">QuickBite</span>
+<p class="font-label-sm text-label-sm text-on-secondary-container dark:text-on-secondary-fixed-variant">© 2024 QuickBite Logistics. All rights reserved.</p>
+</div>
+<div class="flex gap-lg">
+<a class="font-label-sm text-label-sm text-on-secondary-container dark:text-on-secondary-fixed-variant hover:text-primary transition-colors" href="#">Privacy Policy</a>
+<a class="font-label-sm text-label-sm text-on-secondary-container dark:text-on-secondary-fixed-variant hover:text-primary transition-colors" href="#">Terms of Service</a>
+<a class="font-label-sm text-label-sm text-on-secondary-container dark:text-on-secondary-fixed-variant hover:text-primary transition-colors" href="#">Help Center</a>
+</div>
+</div>
+</footer>
+<script>
+        // Simple Micro-interaction for vehicle selection
+        const vehicleCards = document.querySelectorAll('.vehicle-card');
+        vehicleCards.forEach(card => {
+            card.addEventListener('click', () => {
+                vehicleCards.forEach(c => {
+                    c.classList.remove('border-primary', 'bg-primary-fixed');
+                    c.querySelector('.material-symbols-outlined').style.fontVariationSettings = "'FILL' 0";
+                });
+                card.classList.add('border-primary', 'bg-primary-fixed');
+                card.querySelector('.material-symbols-outlined').style.fontVariationSettings = "'FILL' 1";
+            });
+        });
+    </script>
+</body></html>

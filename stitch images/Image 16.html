@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>QuickBite Rider - Active Order Detail</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@100..900&display=swap" rel="stylesheet"/>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .active-pill {
+            font-variation-settings: 'FILL' 1;
+        }
+        /* Custom scrollbar for better UI */
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #e2e2e2;
+            border-radius: 10px;
+        }
+        .order-sheet-gradient {
+            background: linear-gradient(to top, #ffffff 85%, rgba(255,255,255,0) 100%);
+        }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "surface-container-lowest": "#ffffff",
+                        "on-tertiary-fixed-variant": "#005228",
+                        "error-container": "#ffdad6",
+                        "tertiary": "#006d37",
+                        "on-primary-fixed-variant": "#852400",
+                        "on-tertiary-fixed": "#00210c",
+                        "on-primary-fixed": "#3a0b00",
+                        "on-error": "#ffffff",
+                        "on-tertiary-container": "#003216",
+                        "on-background": "#1a1c1c",
+                        "on-primary": "#ffffff",
+                        "surface-bright": "#f9f9f9",
+                        "surface-container-highest": "#e2e2e2",
+                        "inverse-surface": "#2f3131",
+                        "background": "#f9f9f9",
+                        "surface": "#f9f9f9",
+                        "inverse-on-surface": "#f1f1f1",
+                        "on-surface": "#1a1c1c",
+                        "inverse-primary": "#ffb59e",
+                        "on-secondary-container": "#636262",
+                        "error": "#ba1a1a",
+                        "tertiary-container": "#1ba75a",
+                        "on-secondary": "#ffffff",
+                        "primary-container": "#ff5a1f",
+                        "outline-variant": "#e4beb3",
+                        "surface-container": "#eeeeee",
+                        "secondary": "#5f5e5e",
+                        "surface-dim": "#dadada",
+                        "primary": "#ae3200",
+                        "secondary-fixed": "#e5e2e1",
+                        "primary-fixed": "#ffdbd0",
+                        "secondary-fixed-dim": "#c8c6c5",
+                        "on-error-container": "#93000a",
+                        "on-surface-variant": "#5b4038",
+                        "primary-fixed-dim": "#ffb59e",
+                        "outline": "#8f7067",
+                        "surface-tint": "#ae3200",
+                        "on-tertiary": "#ffffff",
+                        "tertiary-fixed-dim": "#61de8a",
+                        "surface-container-low": "#f3f3f3",
+                        "secondary-container": "#e2dfde",
+                        "tertiary-fixed": "#7efba4",
+                        "surface-container-high": "#e8e8e8",
+                        "on-primary-container": "#541400",
+                        "surface-variant": "#e2e2e2",
+                        "on-secondary-fixed-variant": "#474746",
+                        "on-secondary-fixed": "#1c1b1b"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "xl": "40px",
+                        "md": "16px",
+                        "xs": "4px",
+                        "lg": "24px",
+                        "sm": "8px",
+                        "gutter": "16px",
+                        "container-margin": "20px"
+                    },
+                    "fontFamily": {
+                        "body-md": ["Plus Jakarta Sans"],
+                        "body-lg": ["Plus Jakarta Sans"],
+                        "headline-md": ["Plus Jakarta Sans"],
+                        "label-md": ["Plus Jakarta Sans"],
+                        "headline-lg-mobile": ["Plus Jakarta Sans"],
+                        "label-sm": ["Plus Jakarta Sans"],
+                        "headline-xl": ["Plus Jakarta Sans"],
+                        "headline-lg": ["Plus Jakarta Sans"]
+                    },
+                    "fontSize": {
+                        "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                        "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                        "headline-md": ["20px", {"lineHeight": "28px", "fontWeight": "700"}],
+                        "label-md": ["14px", {"lineHeight": "20px", "fontWeight": "600"}],
+                        "headline-lg-mobile": ["24px", {"lineHeight": "32px", "fontWeight": "700"}],
+                        "label-sm": ["12px", {"lineHeight": "16px", "fontWeight": "500"}],
+                        "headline-xl": ["40px", {"lineHeight": "48px", "letterSpacing": "-0.02em", "fontWeight": "800"}],
+                        "headline-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.02em", "fontWeight": "700"}]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-surface font-body-md text-on-surface overflow-hidden">
+<!-- TopAppBar -->
+<header class="flex justify-between items-center px-container-margin py-sm w-full fixed top-0 z-50 bg-surface-container-lowest dark:bg-surface-dim shadow-sm">
+<div class="flex items-center gap-md">
+<button class="material-symbols-outlined text-primary p-2 rounded-full hover:bg-surface-container-high transition-colors active:scale-95 transition-transform">menu</button>
+<h1 class="font-headline-md text-headline-md font-extrabold text-primary">QuickBite Rider</h1>
+</div>
+<div class="flex items-center gap-sm">
+<span class="bg-tertiary-container text-on-tertiary-container px-3 py-1 rounded-full font-label-md text-label-sm">Online</span>
+</div>
+</header>
+<!-- Main Content: Full Screen Map Layer -->
+<main class="h-screen w-full relative">
+<!-- Map Visualization -->
+<div class="absolute inset-0 z-0">
+<div class="w-full h-full grayscale-[20%] contrast-[1.1] brightness-[1.05]" data-alt="A high-resolution satellite and vector map hybrid of a bustling downtown Chicago street grid. The map shows a clear primary orange navigation route line highlighted between a restaurant icon and a customer delivery point. Minimalist UI overlays include soft shadows and clean typography, focusing on a bright, daylight professional delivery context." data-location="Chicago Downtown" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuCKD8offo96kt-90QrdOrJPVNq8_22_q55PW_9-CKbgoR6TAM6Um0w3QvvHhhZFt_v3L9SkUWWxLeZgPbQCGQHgtoI692jFah3YLQxwfVsj0IoK3C-bXEvVMzr0-eLtbo-UKzdv7f-g0llQx3-aCtNkVvfoRnowrQT1IK3vPdBWoCQuMKCJ9inj-R4JeT3qL2L5NMujlzfCvDPCUfPU5XnBVyuCMFqzPR6-Xwt64NK-HQ4v4xNDFQR-emtnvF9d0B9a9SIk2xWXeEEM')"></div>
+<!-- Rider Marker (Animated Pulse) -->
+<div class="absolute top-1/2 left-1/3 -translate-x-1/2 -translate-y-1/2 z-10">
+<div class="relative flex items-center justify-center">
+<div class="absolute w-12 h-12 bg-primary/20 rounded-full animate-ping"></div>
+<div class="w-8 h-8 bg-primary border-4 border-white rounded-full shadow-lg flex items-center justify-center">
+<span class="material-symbols-outlined text-white text-[16px]">delivery_dining</span>
+</div>
+</div>
+</div>
+<!-- Destination Marker -->
+<div class="absolute top-[40%] right-[40%] z-10">
+<div class="w-10 h-10 bg-tertiary border-4 border-white rounded-full shadow-lg flex items-center justify-center">
+<span class="material-symbols-outlined text-white text-[20px]" style="font-variation-settings: 'FILL' 1;">restaurant</span>
+</div>
+<div class="mt-2 bg-white px-2 py-1 rounded-lg shadow-sm border border-outline-variant">
+<p class="font-label-sm text-label-sm text-on-surface">Burger Haven</p>
+</div>
+</div>
+</div>
+<!-- Floatting UI Elements: Back and Recenter -->
+<div class="absolute top-24 left-container-margin z-20 flex flex-col gap-sm">
+<button class="bg-surface-container-lowest text-primary p-3 rounded-full shadow-lg hover:bg-surface-container-high transition-all active:scale-90">
+<span class="material-symbols-outlined">arrow_back</span>
+</button>
+<button class="bg-surface-container-lowest text-on-surface-variant p-3 rounded-full shadow-lg hover:bg-surface-container-high transition-all active:scale-90">
+<span class="material-symbols-outlined">my_location</span>
+</button>
+</div>
+<!-- Active Order Sheet (Bento-style layout) -->
+<div class="fixed bottom-0 left-0 right-0 z-30 max-h-[618px] overflow-y-auto px-4 pb-8 order-sheet-gradient rounded-t-[32px] shadow-[0_-8px_24px_rgba(0,0,0,0.08)]">
+<div class="max-w-3xl mx-auto pt-4">
+<!-- Pull Indicator -->
+<div class="w-12 h-1.5 bg-outline-variant rounded-full mx-auto mb-6"></div>
+<!-- Core Order Info Card -->
+<div class="bg-surface-container-lowest rounded-xl p-md mb-md border border-outline-variant flex justify-between items-start">
+<div>
+<div class="flex items-center gap-sm mb-1">
+<h2 class="font-headline-md text-headline-md">Order #QB-9928</h2>
+<span class="bg-primary-container text-on-primary-container px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider">Priority</span>
+</div>
+<p class="text-secondary font-label-md">Burger Haven • 2.4 km away</p>
+</div>
+<div class="text-right">
+<p class="text-tertiary font-headline-md">+$8.50</p>
+<p class="text-secondary text-[12px]">Est. Earnings</p>
+</div>
+</div>
+<!-- Main Action Buttons (Dynamic Grid) -->
+<div class="grid grid-cols-2 gap-sm mb-md">
+<button class="col-span-2 bg-primary-container text-on-primary-container font-headline-md py-4 rounded-xl shadow-sm active:scale-95 transition-all flex items-center justify-center gap-sm" id="statusBtn" onclick="updateStatus(this)">
+<span class="material-symbols-outlined">check_circle</span>
+                        Reached Restaurant
+                    </button>
+<button class="bg-surface-container-high text-on-surface font-label-md py-3 rounded-xl flex items-center justify-center gap-sm active:scale-95 transition-all">
+<span class="material-symbols-outlined">call</span>
+                        Call Customer
+                    </button>
+<button class="bg-surface-container-high text-on-surface font-label-md py-3 rounded-xl flex items-center justify-center gap-sm active:scale-95 transition-all">
+<span class="material-symbols-outlined">chat</span>
+                        Support
+                    </button>
+</div>
+<!-- Detailed Order Summary & Verification -->
+<div class="bg-surface-container-low rounded-xl p-md mb-xl">
+<div class="flex items-center justify-between mb-md border-b border-outline-variant pb-sm">
+<h3 class="font-label-md text-on-surface">Order Summary</h3>
+<span class="text-secondary font-label-sm">3 Items</span>
+</div>
+<ul class="space-y-md">
+<li class="flex justify-between items-center">
+<div class="flex gap-sm items-center">
+<span class="bg-outline-variant text-on-surface-variant w-6 h-6 rounded flex items-center justify-center text-[12px] font-bold">1</span>
+<span class="font-body-md">Classic Truffle Burger</span>
+</div>
+<span class="material-symbols-outlined text-outline text-[20px]">radio_button_unchecked</span>
+</li>
+<li class="flex justify-between items-center">
+<div class="flex gap-sm items-center">
+<span class="bg-outline-variant text-on-surface-variant w-6 h-6 rounded flex items-center justify-center text-[12px] font-bold">1</span>
+<span class="font-body-md">Large Seasoned Fries</span>
+</div>
+<span class="material-symbols-outlined text-outline text-[20px]">radio_button_unchecked</span>
+</li>
+<li class="flex justify-between items-center">
+<div class="flex gap-sm items-center">
+<span class="bg-outline-variant text-on-surface-variant w-6 h-6 rounded flex items-center justify-center text-[12px] font-bold">1</span>
+<span class="font-body-md">Vanilla Bean Milkshake</span>
+</div>
+<span class="material-symbols-outlined text-outline text-[20px]">radio_button_unchecked</span>
+</li>
+</ul>
+<div class="mt-md p-sm bg-surface-container-highest rounded-lg border-l-4 border-primary">
+<p class="text-label-sm text-secondary uppercase font-bold">Notes from Customer</p>
+<p class="text-body-md italic mt-1 text-on-surface-variant">"Please ask for extra napkins and don't ring the doorbell, baby is sleeping!"</p>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- BottomNavBar (Suppressed for focused detail view as per instructions, but placeholder added for reference) -->
+<!-- Exclusion logic applied: navigation suppressed because this is a "focused task-focused" screen -->
+<script>
+        let currentStage = 0;
+        const stages = [
+            { text: 'Reached Restaurant', icon: 'check_circle', color: 'bg-primary-container text-on-primary-container' },
+            { text: 'Picked Up', icon: 'local_mall', color: 'bg-tertiary-container text-on-tertiary-container' },
+            { text: 'Reached Customer', icon: 'person_pin_circle', color: 'bg-primary text-white' },
+            { text: 'Delivered', icon: 'verified', color: 'bg-tertiary text-white' }
+        ];
+
+        function updateStatus(btn) {
+            currentStage++;
+            if (currentStage >= stages.length) {
+                // Handle delivery completion
+                btn.innerHTML = '<span class="material-symbols-outlined">celebration</span> Order Completed!';
+                btn.className = 'col-span-2 bg-on-tertiary-fixed-variant text-white font-headline-md py-4 rounded-xl shadow-lg transition-all flex items-center justify-center gap-sm scale-105';
+                setTimeout(() => {
+                    alert('Order marked as delivered! Great job, Alex.');
+                }, 500);
+                return;
+            }
+
+            const next = stages[currentStage];
+            btn.innerHTML = `<span class="material-symbols-outlined">${next.icon}</span> ${next.text}`;
+            btn.className = `col-span-2 ${next.color} font-headline-md py-4 rounded-xl shadow-sm active:scale-95 transition-all flex items-center justify-center gap-sm`;
+            
+            // Add a haptic-like effect
+            btn.style.transform = 'scale(0.98)';
+            setTimeout(() => btn.style.transform = 'scale(1)', 100);
+        }
+
+        // Checklist interaction
+        document.querySelectorAll('ul li').forEach(li => {
+            li.addEventListener('click', () => {
+                const icon = li.querySelector('.material-symbols-outlined');
+                if (icon.innerText === 'radio_button_unchecked') {
+                    icon.innerText = 'check_circle';
+                    icon.classList.remove('text-outline');
+                    icon.classList.add('text-tertiary');
+                    li.classList.add('opacity-60');
+                } else {
+                    icon.innerText = 'radio_button_unchecked';
+                    icon.classList.add('text-outline');
+                    icon.classList.remove('text-tertiary');
+                    li.classList.remove('opacity-60');
+                }
+            });
+        });
+    </script>
+</body></html>

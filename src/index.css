@@ -1,0 +1,95 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;700;800&family=Space+Grotesk:wght@400;500;600;700;800&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --color-primary: #f97316;
+  --color-primary-container: #ffedd5;
+  --color-on-primary: #ffffff;
+  --color-on-primary-container: #ea580c;
+  --color-secondary: #475569;
+  --color-secondary-container: #f1f5f9;
+  --color-on-secondary: #ffffff;
+  --color-on-secondary-container: #0f172a;
+  
+  --color-tertiary: #14b8a6;
+  --color-tertiary-container: #ccfbf1;
+  --color-on-tertiary: #ffffff;
+  --color-on-tertiary-container: #115e59;
+  
+  --color-surface: #ffffff;
+  --color-background: #fff7ed;
+  --color-on-background: #0f172a;
+  
+  --color-surface-container: #ffedd5;
+  --color-surface-container-low: #fffaf5;
+  --color-surface-container-high: #ffebdb;
+  --color-surface-container-highest: #fed7aa;
+  --color-outline-variant: #ffecd2;
+  --color-on-surface: #0f172a;
+  
+  --font-sans: "Inter", system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", SFMono-Regular, monospace;
+}
+
+h1, h2, h3, h4, .font-headline-lg, .font-headline-md {
+  font-family: "Space Grotesk", var(--font-sans) !important;
+  letter-spacing: -0.025em;
+}
+
+html, body {
+  font-family: var(--font-sans);
+  background-color: var(--color-background);
+  color: var(--color-on-surface);
+  scroll-behavior: smooth;
+  margin: 0;
+  padding: 0;
+}
+
+/* Custom Scrollbar Utilities */
+.hide-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.hide-scrollbar {
+  -ms-overflow-style: none; /* IE/Edge */
+  scrollbar-width: none; /* Firefox */
+}
+
+/* Master Android Viewport Overrides */
+.android-viewport {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.android-viewport .min-h-screen,
+.android-viewport #homescreen-view,
+.android-viewport #opsconsole-view {
+  min-height: 100% !important;
+  height: 100% !important;
+  max-width: 100% !important;
+  overflow-y: auto !important;
+  overflow-x: hidden !important;
+  position: relative !important;
+}
+
+/* Make fixed layers behave like absolute overlays inside the simulator */
+.android-viewport nav.fixed,
+.android-viewport header.sticky,
+.android-viewport .fixed {
+  position: absolute !important;
+}
+
+/* Adjust paddings so bottom tab-bars don't cover content inside constrained heights */
+.android-viewport main {
+  padding-bottom: 5rem !important;
+}
+
+.android-viewport .pb-24 {
+  padding-bottom: 5rem !important;
+}
+
+
+

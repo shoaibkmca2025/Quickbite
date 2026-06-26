@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Rider Earnings - QuickBite</title>
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "surface-container-lowest": "#ffffff",
+                    "on-tertiary-fixed-variant": "#005228",
+                    "error-container": "#ffdad6",
+                    "tertiary": "#006d37",
+                    "on-primary-fixed-variant": "#852400",
+                    "on-tertiary-fixed": "#00210c",
+                    "on-primary-fixed": "#3a0b00",
+                    "on-error": "#ffffff",
+                    "on-tertiary-container": "#003216",
+                    "on-background": "#1a1c1c",
+                    "on-primary": "#ffffff",
+                    "surface-bright": "#f9f9f9",
+                    "surface-container-highest": "#e2e2e2",
+                    "inverse-surface": "#2f3131",
+                    "background": "#f9f9f9",
+                    "surface": "#f9f9f9",
+                    "inverse-on-surface": "#f1f1f1",
+                    "on-surface": "#1a1c1c",
+                    "inverse-primary": "#ffb59e",
+                    "on-secondary-container": "#636262",
+                    "error": "#ba1a1a",
+                    "tertiary-container": "#1ba75a",
+                    "on-secondary": "#ffffff",
+                    "primary-container": "#ff5a1f",
+                    "outline-variant": "#e4beb3",
+                    "surface-container": "#eeeeee",
+                    "secondary": "#5f5e5e",
+                    "surface-dim": "#dadada",
+                    "primary": "#ae3200",
+                    "secondary-fixed": "#e5e2e1",
+                    "secondary-fixed-dim": "#c8c6c5",
+                    "on-error-container": "#93000a",
+                    "on-surface-variant": "#5b4038",
+                    "primary-fixed-dim": "#ffb59e",
+                    "outline": "#8f7067",
+                    "surface-tint": "#ae3200",
+                    "on-tertiary": "#ffffff",
+                    "tertiary-fixed-dim": "#61de8a",
+                    "surface-container-low": "#f3f3f3",
+                    "secondary-container": "#e2dfde",
+                    "tertiary-fixed": "#7efba4",
+                    "surface-container-high": "#e8e8e8",
+                    "on-primary-container": "#541400",
+                    "surface-variant": "#e2e2e2",
+                    "on-secondary-fixed-variant": "#474746",
+                    "on-secondary-fixed": "#1c1b1b"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "xl": "40px",
+                    "md": "16px",
+                    "xs": "4px",
+                    "lg": "24px",
+                    "sm": "8px",
+                    "gutter": "16px",
+                    "container-margin": "20px"
+            },
+            "fontFamily": {
+                    "body-md": ["Plus Jakarta Sans"],
+                    "body-lg": ["Plus Jakarta Sans"],
+                    "headline-md": ["Plus Jakarta Sans"],
+                    "label-md": ["Plus Jakarta Sans"],
+                    "headline-lg-mobile": ["Plus Jakarta Sans"],
+                    "label-sm": ["Plus Jakarta Sans"],
+                    "headline-xl": ["Plus Jakarta Sans"],
+                    "headline-lg": ["Plus Jakarta Sans"]
+            },
+            "fontSize": {
+                    "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                    "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                    "headline-md": ["20px", {"lineHeight": "28px", "fontWeight": "700"}],
+                    "label-md": ["14px", {"lineHeight": "20px", "fontWeight": "600"}],
+                    "headline-lg-mobile": ["24px", {"lineHeight": "32px", "fontWeight": "700"}],
+                    "label-sm": ["12px", {"lineHeight": "16px", "fontWeight": "500"}],
+                    "headline-xl": ["40px", {"lineHeight": "48px", "letterSpacing": "-0.02em", "fontWeight": "800"}],
+                    "headline-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.02em", "fontWeight": "700"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            display: inline-block;
+            vertical-align: middle;
+        }
+        .hide-scrollbar::-webkit-scrollbar { display: none; }
+        .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+        
+        .bento-card {
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+        .bento-card:active {
+            transform: scale(0.98);
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background text-on-background font-body-md min-h-screen pb-32">
+<!-- Top App Bar -->
+<header class="flex justify-between items-center px-container-margin py-sm w-full fixed top-0 z-50 bg-surface-container-lowest dark:bg-surface-dim shadow-sm">
+<div class="flex items-center gap-md">
+<button class="material-symbols-outlined text-primary p-2 active:scale-95 transition-transform">menu</button>
+<h1 class="font-headline-md text-headline-md font-extrabold text-primary dark:text-primary-fixed">QuickBite Rider</h1>
+</div>
+<div class="flex items-center gap-sm">
+<span class="font-label-md text-tertiary flex items-center gap-xs">
+<span class="w-2 h-2 rounded-full bg-tertiary animate-pulse"></span>
+                Online
+            </span>
+</div>
+</header>
+<main class="pt-20 px-container-margin">
+<!-- Dashboard Header -->
+<section class="mb-lg">
+<h2 class="font-headline-lg-mobile text-headline-lg-mobile text-on-surface mb-xs">Earnings Overview</h2>
+<p class="text-secondary font-body-md">Track your performance and payouts</p>
+</section>
+<!-- Toggle & Date Display -->
+<div class="flex justify-between items-center mb-md">
+<div class="bg-secondary-container rounded-full p-1 flex">
+<button class="px-6 py-2 rounded-full font-label-md transition-all duration-200 bg-surface-container-lowest text-primary shadow-sm" id="daily-btn" onclick="toggleEarnings('daily')">Daily</button>
+<button class="px-6 py-2 rounded-full font-label-md transition-all duration-200 text-secondary" id="weekly-btn" onclick="toggleEarnings('weekly')">Weekly</button>
+</div>
+<div class="text-right">
+<span class="font-label-md text-secondary" id="date-label">Today, Oct 24</span>
+</div>
+</div>
+<!-- Main Bento Grid -->
+<div class="grid grid-cols-2 md:grid-cols-4 gap-md mb-xl">
+<!-- Total Earnings Card -->
+<div class="col-span-2 md:col-span-2 bg-primary-container p-lg rounded-xl shadow-sm flex flex-col justify-between text-on-primary-container bento-card">
+<div>
+<span class="font-label-sm uppercase tracking-wider opacity-80">Total Earnings</span>
+<h3 class="font-headline-xl text-headline-xl mt-xs">$142.50</h3>
+</div>
+<div class="mt-md flex items-center gap-xs">
+<span class="material-symbols-outlined text-[18px]">trending_up</span>
+<span class="font-label-md">+12% vs yesterday</span>
+</div>
+</div>
+<!-- Incentives Card -->
+<div class="col-span-1 bg-surface-container-lowest p-md rounded-xl shadow-sm border border-outline-variant bento-card">
+<span class="material-symbols-outlined text-tertiary mb-sm" style="font-variation-settings: 'FILL' 1;">stars</span>
+<span class="block font-label-sm text-secondary">Incentives</span>
+<span class="block font-headline-md text-headline-md text-on-surface">$25.00</span>
+</div>
+<!-- Tips Card -->
+<div class="col-span-1 bg-surface-container-lowest p-md rounded-xl shadow-sm border border-outline-variant bento-card">
+<span class="material-symbols-outlined text-primary-container mb-sm" style="font-variation-settings: 'FILL' 1;">volunteer_activism</span>
+<span class="block font-label-sm text-secondary">Tips</span>
+<span class="block font-headline-md text-headline-md text-on-surface">$18.50</span>
+</div>
+<!-- Next Payment Status Card (Asymmetric) -->
+<div class="col-span-2 bg-surface-container p-lg rounded-xl shadow-sm bento-card">
+<div class="flex justify-between items-start">
+<div>
+<span class="font-label-sm text-secondary">Next Payout</span>
+<h4 class="font-headline-md text-headline-md text-on-surface">Monday, Oct 28</h4>
+</div>
+<span class="bg-tertiary-fixed text-on-tertiary-fixed font-label-sm px-3 py-1 rounded-full">Processing</span>
+</div>
+<div class="mt-md h-2 bg-surface-variant rounded-full overflow-hidden">
+<div class="w-[70%] h-full bg-tertiary rounded-full"></div>
+</div>
+<p class="mt-sm font-label-sm text-secondary">Estimated: $842.20</p>
+</div>
+</div>
+<!-- Activity Graph Placeholder -->
+<section class="mb-xl bg-surface-container-lowest p-lg rounded-xl shadow-sm border border-outline-variant overflow-hidden relative">
+<div class="flex justify-between items-end mb-lg">
+<h3 class="font-label-md text-on-surface">Earnings Activity</h3>
+<div class="flex gap-sm">
+<span class="flex items-center gap-xs font-label-sm text-secondary"><span class="w-2 h-2 rounded-full bg-primary-container"></span>Earnings</span>
+<span class="flex items-center gap-xs font-label-sm text-secondary"><span class="w-2 h-2 rounded-full bg-tertiary"></span>Target</span>
+</div>
+</div>
+<div class="h-40 flex items-end justify-between gap-sm">
+<!-- Bar 1 -->
+<div class="flex-1 group relative">
+<div class="w-full bg-primary-container opacity-20 h-24 rounded-t-sm group-hover:opacity-40 transition-opacity"></div>
+<div class="absolute bottom-0 w-full bg-primary-container h-16 rounded-t-sm"></div>
+<span class="absolute -bottom-6 left-1/2 -translate-x-1/2 font-label-sm text-secondary">M</span>
+</div>
+<!-- Bar 2 -->
+<div class="flex-1 group relative">
+<div class="w-full bg-primary-container opacity-20 h-32 rounded-t-sm group-hover:opacity-40 transition-opacity"></div>
+<div class="absolute bottom-0 w-full bg-primary-container h-24 rounded-t-sm"></div>
+<span class="absolute -bottom-6 left-1/2 -translate-x-1/2 font-label-sm text-secondary">T</span>
+</div>
+<!-- Bar 3 (Current/Highlight) -->
+<div class="flex-1 group relative">
+<div class="w-full bg-primary-container opacity-20 h-36 rounded-t-sm group-hover:opacity-40 transition-opacity"></div>
+<div class="absolute bottom-0 w-full bg-primary h-32 rounded-t-sm"></div>
+<span class="absolute -bottom-6 left-1/2 -translate-x-1/2 font-label-sm text-on-surface font-bold">W</span>
+</div>
+<!-- Bar 4 -->
+<div class="flex-1 group relative">
+<div class="w-full bg-primary-container opacity-10 h-20 rounded-t-sm group-hover:opacity-40 transition-opacity border border-dashed border-primary"></div>
+<span class="absolute -bottom-6 left-1/2 -translate-x-1/2 font-label-sm text-secondary">T</span>
+</div>
+<!-- Bar 5 -->
+<div class="flex-1 group relative">
+<div class="w-full bg-primary-container opacity-10 h-20 rounded-t-sm border border-dashed border-primary"></div>
+<span class="absolute -bottom-6 left-1/2 -translate-x-1/2 font-label-sm text-secondary">F</span>
+</div>
+</div>
+</section>
+<!-- Completed Trips List -->
+<section>
+<div class="flex justify-between items-center mb-md">
+<h3 class="font-headline-md text-headline-md">Completed Trips</h3>
+<button class="text-primary font-label-md flex items-center gap-xs">
+                    View All
+                    <span class="material-symbols-outlined text-[18px]">chevron_right</span>
+</button>
+</div>
+<div class="space-y-sm">
+<!-- Trip Item 1 -->
+<div class="bg-surface-container-lowest p-md rounded-xl shadow-sm border border-outline-variant flex items-center gap-md hover:bg-surface-container-low transition-colors">
+<div class="w-12 h-12 rounded-lg bg-secondary-container flex items-center justify-center">
+<span class="material-symbols-outlined text-secondary">restaurant</span>
+</div>
+<div class="flex-1">
+<div class="flex justify-between items-start">
+<h4 class="font-label-md text-on-surface">Spicy Wok &amp; Noodle</h4>
+<span class="font-label-md text-on-surface">$12.40</span>
+</div>
+<div class="flex justify-between items-center mt-1">
+<p class="text-secondary font-label-sm">Trip #8821 • 12:45 PM</p>
+<span class="text-tertiary font-label-sm flex items-center gap-xs">
+<span class="material-symbols-outlined text-[14px]">payments</span>
+                                +$2.00 Tip
+                            </span>
+</div>
+</div>
+</div>
+<!-- Trip Item 2 -->
+<div class="bg-surface-container-lowest p-md rounded-xl shadow-sm border border-outline-variant flex items-center gap-md hover:bg-surface-container-low transition-colors">
+<div class="w-12 h-12 rounded-lg bg-secondary-container flex items-center justify-center">
+<span class="material-symbols-outlined text-secondary">local_pizza</span>
+</div>
+<div class="flex-1">
+<div class="flex justify-between items-start">
+<h4 class="font-label-md text-on-surface">Mario's Pizzeria</h4>
+<span class="font-label-md text-on-surface">$9.80</span>
+</div>
+<div class="flex justify-between items-center mt-1">
+<p class="text-secondary font-label-sm">Trip #8819 • 11:20 AM</p>
+<span class="text-primary-container font-label-sm flex items-center gap-xs">
+<span class="material-symbols-outlined text-[14px]">celebration</span>
+                                Incentive Trip
+                            </span>
+</div>
+</div>
+</div>
+<!-- Trip Item 3 -->
+<div class="bg-surface-container-lowest p-md rounded-xl shadow-sm border border-outline-variant flex items-center gap-md hover:bg-surface-container-low transition-colors">
+<div class="w-12 h-12 rounded-lg bg-secondary-container flex items-center justify-center">
+<span class="material-symbols-outlined text-secondary">coffee</span>
+</div>
+<div class="flex-1">
+<div class="flex justify-between items-start">
+<h4 class="font-label-md text-on-surface">The Coffee Bean</h4>
+<span class="font-label-md text-on-surface">$7.20</span>
+</div>
+<div class="flex justify-between items-center mt-1">
+<p class="text-secondary font-label-sm">Trip #8815 • 9:15 AM</p>
+</div>
+</div>
+</div>
+</div>
+</section>
+</main>
+<!-- Bottom Nav Bar -->
+<nav class="fixed bottom-0 w-full z-50 flex justify-around items-center px-4 py-2 bg-surface-container-lowest dark:bg-surface-dim border-t border-outline-variant dark:border-outline shadow-lg rounded-t-xl">
+<a class="flex flex-col items-center justify-center text-secondary hover:bg-surface-container-high transition-all active:scale-90 px-4 py-1" href="#">
+<span class="material-symbols-outlined" data-icon="delivery_dining">delivery_dining</span>
+<span class="font-label-sm text-label-sm">Tasks</span>
+</a>
+<a class="flex flex-col items-center justify-center bg-primary-container text-on-primary-container rounded-full px-4 py-1 active:scale-90 transition-all duration-150" href="#">
+<span class="material-symbols-outlined" data-icon="payments" style="font-variation-settings: 'FILL' 1;">payments</span>
+<span class="font-label-sm text-label-sm">Earnings</span>
+</a>
+<a class="flex flex-col items-center justify-center text-secondary hover:bg-surface-container-high transition-all active:scale-90 px-4 py-1" href="#">
+<span class="material-symbols-outlined" data-icon="person">person</span>
+<span class="font-label-sm text-label-sm">Profile</span>
+</a>
+<a class="flex flex-col items-center justify-center text-secondary hover:bg-surface-container-high transition-all active:scale-90 px-4 py-1" href="#">
+<span class="material-symbols-outlined" data-icon="support_agent">support_agent</span>
+<span class="font-label-sm text-label-sm">Support</span>
+</a>
+</nav>
+<script>
+        function toggleEarnings(view) {
+            const dailyBtn = document.getElementById('daily-btn');
+            const weeklyBtn = document.getElementById('weekly-btn');
+            const dateLabel = document.getElementById('date-label');
+            
+            if (view === 'daily') {
+                dailyBtn.classList.add('bg-surface-container-lowest', 'text-primary', 'shadow-sm');
+                dailyBtn.classList.remove('text-secondary');
+                weeklyBtn.classList.remove('bg-surface-container-lowest', 'text-primary', 'shadow-sm');
+                weeklyBtn.classList.add('text-secondary');
+                dateLabel.innerText = "Today, Oct 24";
+            } else {
+                weeklyBtn.classList.add('bg-surface-container-lowest', 'text-primary', 'shadow-sm');
+                weeklyBtn.classList.remove('text-secondary');
+                dailyBtn.classList.remove('bg-surface-container-lowest', 'text-primary', 'shadow-sm');
+                dailyBtn.classList.add('text-secondary');
+                dateLabel.innerText = "Oct 21 - Oct 27";
+            }
+        }
+    </script>
+</body></html>

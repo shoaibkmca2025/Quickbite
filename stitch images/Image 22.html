@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Operations Console - Fleet & Partner Management</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@100..900&display=swap" rel="stylesheet"/>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .active-tab-indicator {
+            view-transition-name: active-tab;
+        }
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #e2e2e2;
+            border-radius: 10px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #dadada;
+        }
+        .bento-card {
+            transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.2s ease;
+        }
+        .bento-card:hover {
+            transform: translateY(-2px);
+        }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "secondary-fixed-dim": "#c8c6c5",
+                        "secondary": "#5f5e5e",
+                        "on-tertiary-container": "#003216",
+                        "on-tertiary": "#ffffff",
+                        "outline": "#8f7067",
+                        "on-surface-variant": "#5b4038",
+                        "secondary-fixed": "#e5e2e1",
+                        "secondary-container": "#e2dfde",
+                        "primary-fixed": "#ffdbd0",
+                        "primary-fixed-dim": "#ffb59e",
+                        "on-secondary": "#ffffff",
+                        "inverse-on-surface": "#f1f1f1",
+                        "on-secondary-fixed": "#1c1b1b",
+                        "surface-container": "#eeeeee",
+                        "on-primary-fixed-variant": "#852400",
+                        "surface-container-lowest": "#ffffff",
+                        "error-container": "#ffdad6",
+                        "surface-dim": "#dadada",
+                        "primary": "#ae3200",
+                        "on-primary-container": "#541400",
+                        "on-error-container": "#93000a",
+                        "on-secondary-container": "#636262",
+                        "on-background": "#1a1c1c",
+                        "surface-variant": "#e2e2e2",
+                        "surface": "#f9f9f9",
+                        "tertiary-container": "#1ba75a",
+                        "on-tertiary-fixed": "#00210c",
+                        "error": "#ba1a1a",
+                        "tertiary": "#006d37",
+                        "surface-container-high": "#e8e8e8",
+                        "primary-container": "#ff5a1f",
+                        "on-secondary-fixed-variant": "#474746",
+                        "inverse-surface": "#2f3131",
+                        "surface-bright": "#f9f9f9",
+                        "on-surface": "#1a1c1c",
+                        "on-primary-fixed": "#3a0b00",
+                        "on-error": "#ffffff",
+                        "tertiary-fixed": "#7efba4",
+                        "background": "#f9f9f9",
+                        "surface-container-low": "#f3f3f3",
+                        "on-primary": "#ffffff",
+                        "surface-tint": "#ae3200",
+                        "inverse-primary": "#ffb59e",
+                        "tertiary-fixed-dim": "#61de8a",
+                        "surface-container-highest": "#e2e2e2",
+                        "outline-variant": "#e4beb3",
+                        "on-tertiary-fixed-variant": "#005228"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "sm": "8px",
+                        "lg": "24px",
+                        "xl": "40px",
+                        "md": "16px",
+                        "container-margin": "20px",
+                        "xs": "4px",
+                        "gutter": "16px"
+                    },
+                    "fontFamily": {
+                        "headline-lg": ["Plus Jakarta Sans"],
+                        "headline-md": ["Plus Jakarta Sans"],
+                        "body-lg": ["Plus Jakarta Sans"],
+                        "body-md": ["Plus Jakarta Sans"],
+                        "label-md": ["Plus Jakarta Sans"],
+                        "label-sm": ["Plus Jakarta Sans"]
+                    },
+                    "fontSize": {
+                        "headline-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                        "headline-md": ["20px", {"lineHeight": "28px", "fontWeight": "700"}],
+                        "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                        "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                        "label-md": ["14px", {"lineHeight": "20px", "fontWeight": "600"}],
+                        "label-sm": ["12px", {"lineHeight": "16px", "fontWeight": "500"}]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-surface text-on-surface font-body-md overflow-hidden">
+<!-- TopAppBar -->
+<header class="fixed top-0 w-full bg-surface dark:bg-surface-dim shadow-sm flex justify-between items-center px-lg py-sm z-50">
+<div class="flex items-center gap-md">
+<span class="material-symbols-outlined text-primary dark:text-primary-fixed-dim" style="font-size: 28px;">speed</span>
+<h1 class="font-headline-md text-headline-md text-primary dark:text-primary-fixed-dim">Operations Console</h1>
+</div>
+<div class="flex items-center gap-md">
+<div class="hidden md:flex items-center gap-lg mr-lg">
+<a class="text-primary font-bold border-b-2 border-primary py-xs" href="#">Fleet & Partners</a>
+<a class="text-secondary font-medium hover:bg-secondary-container transition-colors px-sm py-xs rounded" href="#">Live Orders</a>
+<a class="text-secondary font-medium hover:bg-secondary-container transition-colors px-sm py-xs rounded" href="#">Performance</a>
+</div>
+<div class="flex items-center gap-sm bg-surface-container rounded-full pl-sm pr-xs py-xs">
+<span class="text-label-md px-sm">Admin Profile</span>
+<div class="w-8 h-8 rounded-full bg-primary-container text-on-primary-container flex items-center justify-center font-bold text-xs">AP</div>
+</div>
+</div>
+</header>
+<!-- Sidebar / Navigation Drawer -->
+<aside class="h-screen w-64 fixed left-0 top-0 bg-surface-container-low dark:bg-surface-container-lowest flex flex-col border-r border-outline-variant pt-20 hidden md:flex">
+<div class="px-md py-sm">
+<span class="font-headline-sm text-primary uppercase tracking-widest text-[10px] opacity-70">Fleet Command</span>
+</div>
+<nav class="flex-1 mt-sm">
+<a class="text-on-surface-variant hover:bg-secondary-container rounded-lg mx-sm my-xs px-md py-sm flex items-center gap-md transition-all duration-200" href="#">
+<span class="material-symbols-outlined">monitoring</span>
+<span class="font-label-md text-label-md">Live Orders</span>
+</a>
+<a class="bg-primary-container text-on-primary-container rounded-lg mx-sm my-xs px-md py-sm flex items-center gap-md" href="#">
+<span class="material-symbols-outlined">group</span>
+<span class="font-label-md text-label-md">Management</span>
+</a>
+<a class="text-on-surface-variant hover:bg-secondary-container rounded-lg mx-sm my-xs px-md py-sm flex items-center gap-md" href="#">
+<span class="material-symbols-outlined">emergency_home</span>
+<span class="font-label-md text-label-md">Intervention</span>
+</a>
+<a class="text-on-surface-variant hover:bg-secondary-container rounded-lg mx-sm my-xs px-md py-sm flex items-center gap-md" href="#">
+<span class="material-symbols-outlined">analytics</span>
+<span class="font-label-md text-label-md">Performance</span>
+</a>
+</nav>
+<div class="p-md border-t border-outline-variant">
+<div class="bg-primary/5 p-sm rounded-lg border border-primary/10">
+<p class="text-[10px] font-bold text-primary mb-1 uppercase">System Health</p>
+<div class="flex items-center gap-2">
+<div class="w-2 h-2 rounded-full bg-tertiary-container animate-pulse"></div>
+<span class="text-xs font-medium">All Services Normal</span>
+</div>
+</div>
+</div>
+</aside>
+<!-- Main Content Canvas -->
+<main class="md:ml-64 pt-20 h-screen flex flex-col">
+<!-- Content Header -->
+<div class="px-lg py-md flex flex-col gap-md">
+<div class="flex flex-col md:flex-row md:items-center justify-between gap-md">
+<div>
+<h2 class="font-headline-lg text-headline-lg text-on-surface">Fleet & Partners</h2>
+<p class="text-secondary body-md">Manage and monitor live operational status across your ecosystem.</p>
+</div>
+<!-- Toggle Tabs -->
+<div class="bg-surface-container-high p-1 rounded-xl flex w-fit">
+<button class="px-lg py-sm rounded-lg font-label-md text-label-md transition-all duration-200 bg-surface text-on-surface shadow-sm" id="btn-restaurants" onclick="switchTab('restaurants')">
+                        Restaurants
+                    </button>
+<button class="px-lg py-sm rounded-lg font-label-md text-label-md transition-all duration-200 text-on-surface-variant hover:text-on-surface" id="btn-riders" onclick="switchTab('riders')">
+                        Riders
+                    </button>
+</div>
+</div>
+<!-- Search and Filter Bar -->
+<div class="flex flex-col md:flex-row gap-sm items-center">
+<div class="relative w-full md:w-96">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant">search</span>
+<input class="w-full bg-[#F2F2F2] border-none rounded-full pl-10 pr-4 py-2 focus:ring-2 focus:ring-primary/20 text-body-md transition-all" placeholder="Search by name, ID or area..." type="text"/>
+</div>
+<div class="flex items-center gap-sm overflow-x-auto w-full md:w-auto no-scrollbar">
+<button class="bg-surface-container border border-outline-variant px-md py-1.5 rounded-full text-label-md flex items-center gap-2 whitespace-nowrap">
+                        Status: All <span class="material-symbols-outlined text-[18px]">expand_more</span>
+</button>
+<button class="bg-surface-container border border-outline-variant px-md py-1.5 rounded-full text-label-md flex items-center gap-2 whitespace-nowrap">
+                        Rating: 4.0+ <span class="material-symbols-outlined text-[18px]">expand_more</span>
+</button>
+<button class="bg-surface-container border border-outline-variant px-md py-1.5 rounded-full text-label-md flex items-center gap-2 whitespace-nowrap">
+                        Area <span class="material-symbols-outlined text-[18px]">expand_more</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Scrollable Grid Content -->
+<div class="flex-1 overflow-y-auto px-lg pb-xl">
+<!-- Restaurant View (Default) -->
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-md" id="view-restaurants">
+<!-- Restaurant Cards (Mock Data) -->
+<script>
+                    const restaurants = [
+                        { name: "Gourmet Burger Kitchen", status: "Online", orders: 12, rating: 4.8, img: "https://images.unsplash.com/photo-1550547660-d9450f859349?q=80&w=600&auto=format&fit=crop" },
+                        { name: "Pizzeria Napoletana", status: "Busy", orders: 24, rating: 4.5, img: "https://images.unsplash.com/photo-1574071318508-1cdbad80ad50?q=80&w=600&auto=format&fit=crop" },
+                        { name: "Sushi Zen Garden", status: "Online", orders: 5, rating: 4.9, img: "https://images.unsplash.com/photo-1579871494447-9811cf80d66c?q=80&w=600&auto=format&fit=crop" },
+                        { name: "Wok & Roll Express", status: "Offline", orders: 0, rating: 4.2, img: "https://images.unsplash.com/photo-1512058560566-42724afbc2db?q=80&w=600&auto=format&fit=crop" },
+                        { name: "The Green Salad Co", status: "Online", orders: 8, rating: 4.6, img: "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?q=80&w=600&auto=format&fit=crop" },
+                        { name: "Taco Fiesta", status: "Busy", orders: 18, rating: 4.4, img: "https://images.unsplash.com/photo-1565299585323-38d6b0865b47?q=80&w=600&auto=format&fit=crop" },
+                        { name: "Bakery & Brew", status: "Online", orders: 3, rating: 4.7, img: "https://images.unsplash.com/photo-1509440159596-0249088772ff?q=80&w=600&auto=format&fit=crop" },
+                        { name: "Steakhouse Prime", status: "Offline", orders: 0, rating: 4.3, img: "https://images.unsplash.com/photo-1546241072-48010ad28c2c?q=80&w=600&auto=format&fit=crop" }
+                    ];
+
+                    const restaurantGrid = document.getElementById('view-restaurants');
+                    restaurants.forEach(res => {
+                        const statusColor = res.status === 'Online' ? 'bg-tertiary/10 text-tertiary' : (res.status === 'Busy' ? 'bg-primary/10 text-primary' : 'bg-secondary/10 text-secondary');
+                        const statusDot = res.status === 'Online' ? 'bg-tertiary' : (res.status === 'Busy' ? 'bg-primary' : 'bg-secondary');
+                        
+                        restaurantGrid.innerHTML += `
+                            <div class="bento-card bg-surface-container-low rounded-xl overflow-hidden flex flex-col shadow-sm border border-transparent hover:border-primary/20">
+                                <div class="aspect-[16/9] relative">
+                                    <div class="absolute inset-0 bg-cover bg-center" style="background-image: url('placeholder')" data-alt="A high-end, professionally photographed food dish from ${res.name} displayed on a minimalist background. The lighting is soft and appetizing, highlighting the fresh ingredients. The color palette is warm and inviting, consistent with a premium food delivery dashboard."></div>
+                                    <div class="absolute top-2 right-2 ${statusColor} px-2 py-1 rounded-full text-[10px] font-bold uppercase flex items-center gap-1.5 backdrop-blur-md">
+                                        <div class="w-1.5 h-1.5 rounded-full ${statusDot}"></div>
+                                        ${res.status}
+                                    </div>
+                                </div>
+                                <div class="p-md flex-1 flex flex-col gap-sm">
+                                    <div class="flex justify-between items-start">
+                                        <h3 class="font-headline-md text-on-surface line-clamp-1">${res.name}</h3>
+                                        <div class="flex items-center gap-1 text-tertiary font-bold text-sm">
+                                            <span class="material-symbols-outlined text-[16px]" style="font-variation-settings: 'FILL' 1;">star</span>
+                                            ${res.rating}
+                                        </div>
+                                    </div>
+                                    <div class="flex-1 flex items-center gap-md py-sm border-y border-outline-variant/30 my-xs">
+                                        <div class="flex flex-col">
+                                            <span class="text-[10px] uppercase tracking-wider text-secondary">Active Orders</span>
+                                            <span class="text-xl font-extrabold text-on-surface">${res.orders}</span>
+                                        </div>
+                                        <div class="w-px h-8 bg-outline-variant/30"></div>
+                                        <div class="flex flex-col">
+                                            <span class="text-[10px] uppercase tracking-wider text-secondary">Est. Prep Time</span>
+                                            <span class="text-xl font-extrabold text-on-surface">${res.orders > 15 ? '25' : '12'}m</span>
+                                        </div>
+                                    </div>
+                                    <button class="w-full bg-on-surface text-surface py-2 rounded-lg font-label-md hover:bg-on-surface-variant transition-colors flex items-center justify-center gap-2 active:scale-95 duration-100">
+                                        Manage Partner
+                                        <span class="material-symbols-outlined text-[18px]">chevron_right</span>
+                                    </button>
+                                </div>
+                            </div>
+                        `;
+                    });
+                </script>
+</div>
+<!-- Rider View (Hidden by default) -->
+<div class="hidden grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-md" id="view-riders">
+<script>
+                    const riders = [
+                        { name: "Marco Rossi", status: "Busy", area: "Downtown Central", shift: "6h 12m", id: "RD-202" },
+                        { name: "Sarah Jenkins", status: "Idle", area: "West End Heights", shift: "3h 45m", id: "RD-501" },
+                        { name: "Ahmad Khan", status: "Busy", area: "North Riverside", shift: "7h 20m", id: "RD-112" },
+                        { name: "Elena Dimitrov", status: "Offline", area: "N/A", shift: "0h 0m", id: "RD-984" },
+                        { name: "James Wilson", status: "Idle", area: "South Park", shift: "1h 30m", id: "RD-443" },
+                        { name: "Lin Zhao", status: "Busy", area: "Tech District", shift: "4h 55m", id: "RD-672" }
+                    ];
+
+                    const riderGrid = document.getElementById('view-riders');
+                    riders.forEach(rider => {
+                        const statusColor = rider.status === 'Idle' ? 'bg-tertiary/10 text-tertiary' : (rider.status === 'Busy' ? 'bg-primary/10 text-primary' : 'bg-secondary/10 text-secondary');
+                        const statusDot = rider.status === 'Idle' ? 'bg-tertiary' : (rider.status === 'Busy' ? 'bg-primary' : 'bg-secondary');
+
+                        riderGrid.innerHTML += `
+                            <div class="bento-card bg-surface-container-low rounded-xl p-md flex flex-col shadow-sm border border-transparent hover:border-primary/20">
+                                <div class="flex items-center gap-md mb-md">
+                                    <div class="w-12 h-12 rounded-full bg-secondary-container flex items-center justify-center overflow-hidden">
+                                        <span class="material-symbols-outlined text-secondary text-2xl">person</span>
+                                    </div>
+                                    <div class="flex-1">
+                                        <h3 class="font-headline-md text-on-surface">${rider.name}</h3>
+                                        <span class="text-[10px] text-secondary font-bold uppercase">${rider.id}</span>
+                                    </div>
+                                    <div class="${statusColor} px-2 py-1 rounded-full text-[10px] font-bold uppercase flex items-center gap-1.5">
+                                        <div class="w-1.5 h-1.5 rounded-full ${statusDot}"></div>
+                                        ${rider.status}
+                                    </div>
+                                </div>
+                                <div class="space-y-sm mb-lg flex-1">
+                                    <div class="flex justify-between items-center bg-surface p-sm rounded-lg">
+                                        <div class="flex items-center gap-2 text-secondary">
+                                            <span class="material-symbols-outlined text-[18px]">location_on</span>
+                                            <span class="text-xs font-medium">Location</span>
+                                        </div>
+                                        <span class="text-xs font-bold text-on-surface">${rider.area}</span>
+                                    </div>
+                                    <div class="flex justify-between items-center bg-surface p-sm rounded-lg">
+                                        <div class="flex items-center gap-2 text-secondary">
+                                            <span class="material-symbols-outlined text-[18px]">schedule</span>
+                                            <span class="text-xs font-medium">Shift Duration</span>
+                                        </div>
+                                        <span class="text-xs font-bold text-on-surface">${rider.shift}</span>
+                                    </div>
+                                </div>
+                                <div class="flex gap-2">
+                                    <button class="flex-1 border border-outline-variant py-2 rounded-lg font-label-md hover:bg-surface transition-colors active:scale-95 duration-100">
+                                        Status
+                                    </button>
+                                    <button class="flex-1 bg-primary text-on-primary py-2 rounded-lg font-label-md hover:bg-primary-container transition-colors active:scale-95 duration-100">
+                                        Profile
+                                    </button>
+                                </div>
+                            </div>
+                        `;
+                    });
+                </script>
+</div>
+</div>
+</main>
+<!-- FAB for Quick Actions -->
+<button class="fixed bottom-lg right-lg w-14 h-14 bg-primary text-on-primary rounded-2xl shadow-xl flex items-center justify-center hover:scale-110 active:scale-95 transition-all duration-200 z-[60]">
+<span class="material-symbols-outlined text-3xl">add</span>
+</button>
+<script>
+        function switchTab(tab) {
+            const resView = document.getElementById('view-restaurants');
+            const riderView = document.getElementById('view-riders');
+            const btnRes = document.getElementById('btn-restaurants');
+            const btnRider = document.getElementById('btn-riders');
+
+            if (tab === 'restaurants') {
+                resView.classList.remove('hidden');
+                riderView.classList.add('hidden');
+                btnRes.classList.add('bg-surface', 'text-on-surface', 'shadow-sm');
+                btnRes.classList.remove('text-on-surface-variant');
+                btnRider.classList.remove('bg-surface', 'text-on-surface', 'shadow-sm');
+                btnRider.classList.add('text-on-surface-variant');
+            } else {
+                resView.classList.add('hidden');
+                riderView.classList.remove('hidden');
+                btnRider.classList.add('bg-surface', 'text-on-surface', 'shadow-sm');
+                btnRider.classList.remove('text-on-surface-variant');
+                btnRes.classList.remove('bg-surface', 'text-on-surface', 'shadow-sm');
+                btnRes.classList.add('text-on-surface-variant');
+            }
+        }
+    </script>
+</body></html>

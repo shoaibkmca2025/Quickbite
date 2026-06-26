@@ -1,0 +1,87 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Global Safety Net
+    match /{document=**} {
+      allow read, write: if false;
+    }
+
+    // Global Helpers
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    function isOwner(userId) {
+      return isSignedIn() && request.auth.uid == userId;
+    }
+
+    function isValidId(id) {
+      return id is string && id.size() <= 128 && id.matches('^[a-zA-Z0-9_\\-]+$');
+    }
+
+    function incoming() {
+      return request.resource.data;
+    }
+
+    function existing() {
+      return resource.data;
+    }
+
+    // Match user profiles
+    match /users/{userId} {
+      allow get: if isSignedIn();
+      allow list: if false; // Deny broad list/scanning of user records
+      allow create: if isSignedIn() && isOwner(userId) && isValidUser(incoming());
+      allow update: if isSignedIn() && isOwner(userId) && isValidUser(incoming()) && (
+        incoming().diff(existing()).affectedKeys().hasOnly(['id', 'name', 'email', 'avatar', 'role'])
+      );
+      allow delete: if false;
+    }
+
+    function isValidUser(data) {
+      return data.id is string && data.id.size() <= 128
+          && data.name is string && data.name.size() <= 100
+          && data.email is string && data.email.size() <= 150
+          && (!('avatar' in data) || (data.avatar is string && data.avatar.size() <= 500))
+          && (!('role' in data) || (data.role is string && (data.role == 'customer' || data.role == 'rider' || data.role == 'ops')));
+    }
+
+    // Match orders
+    match /orders/{orderId} {
+      // Read access: Must be either the ordering customer, the assigned rider, or we check other constraints
+      allow get: if isSignedIn() && (
+        resource.data.userId == request.auth.uid || 
+        (resource.data.riderId is string && resource.data.riderId == request.auth.uid)
+      );
+
+      // List queries are securely restricted to check current user's role on the resource
+      allow list: if isSignedIn() && (
+        resource.data.userId == request.auth.uid ||
+        (resource.data.riderId is string && resource.data.riderId == request.auth.uid)
+      );
+
+      allow create: if isSignedIn() && isValidOrder(incoming()) && (
+        incoming().userId == request.auth.uid
+      );
+
+      allow update: if isSignedIn() && isValidOrder(incoming()) && (
+        // Customer can cancel or edit, only status is modifiable
+        (existing().userId == request.auth.uid && incoming().diff(existing()).affectedKeys().hasOnly(['status'])) ||
+        // Rider can accept / claim / update status
+        (incoming().diff(existing()).affectedKeys().hasOnly(['status', 'riderId']))
+      );
+
+      allow delete: if false;
+    }
+
+    function isValidOrder(data) {
+      return data.id is string && data.id.size() <= 128
+          && data.restaurantName is string && data.restaurantName.size() <= 150
+          && data.date is string && data.date.size() <= 50
+          && data.status is string && (data.status == 'Delivered' || data.status == 'In Progress' || data.status == 'Cancelled')
+          && data.totalAmount is number
+          && data.userId is string && data.userId.size() <= 128
+          && (!('riderId' in data) || (data.riderId is string && data.riderId.size() <= 128));
+    }
+  }
+}

@@ -1,0 +1,6 @@
+{
+  "name": "QuickBite",
+  "description": "A multi-screen food delivery and courier operations application featuring customer ordering, rider dashboard, and operations management.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
