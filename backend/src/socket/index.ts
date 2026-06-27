@@ -1,7 +1,7 @@
 import { Server as HttpServer } from 'http';
 import { Server, Socket } from 'socket.io';
-import { env } from '../config/env';
 import { logger } from '../config/logger';
+import { corsOrigin } from '../config/cors';
 import { verifyAccessToken, JwtPayload } from '../utils/jwt';
 import { SOCKET_EVENTS } from '../utils/constants';
 
@@ -22,7 +22,7 @@ export const rooms = {
 
 export function initSocket(server: HttpServer): Server {
   io = new Server(server, {
-    cors: { origin: env.clientOrigins.includes('*') ? '*' : env.clientOrigins },
+    cors: { origin: corsOrigin, credentials: true },
   });
 
   // Optional auth via handshake token; unauthenticated sockets can still track public order rooms.

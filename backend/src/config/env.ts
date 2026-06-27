@@ -27,13 +27,16 @@ export const env = {
   nodeEnv: process.env.NODE_ENV ?? 'development',
   isProd: process.env.NODE_ENV === 'production',
   port: num('PORT', 4000),
-  // Allowed browser origins for CORS (REST + Socket.IO). Trailing slashes are stripped
-  // because the browser's Origin header never has one — a "…vercel.app/" entry would
-  // otherwise silently fail to match and block the request.
+  // Allowed browser origins for CORS (REST + Socket.IO). We normalise each entry so common
+  // mistakes don't silently block requests:
+  //  - strip trailing slashes (the browser's Origin header never has one)
+  //  - add "https://" if the scheme is missing (so "foo.vercel.app" works like the full URL)
+  // Wildcards (e.g. "https://*.vercel.app") and "*" are passed through. See config/cors.ts.
   clientOrigins: (process.env.CLIENT_ORIGINS ?? '*')
     .split(',')
     .map((o) => o.trim().replace(/\/+$/, ''))
-    .filter(Boolean),
+    .filter(Boolean)
+    .map((o) => (o === '*' || o.includes('://') ? o : `https://${o}`)),
 
   mongoUri: required('MONGODB_URI', 'mongodb://127.0.0.1:27017/quickbite'),
 

@@ -5,6 +5,7 @@ import compression from 'compression';
 import morgan from 'morgan';
 import rateLimit from 'express-rate-limit';
 import { env } from './config/env';
+import { corsOrigin } from './config/cors';
 import routes from './routes';
 import { notFound, errorHandler } from './middleware/error';
 
@@ -18,7 +19,7 @@ export function createApp(): Application {
   app.use(helmet());
   app.use(
     cors({
-      origin: env.clientOrigins.includes('*') ? true : env.clientOrigins,
+      origin: corsOrigin,
       credentials: true,
     })
   );
