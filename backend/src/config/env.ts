@@ -27,9 +27,12 @@ export const env = {
   nodeEnv: process.env.NODE_ENV ?? 'development',
   isProd: process.env.NODE_ENV === 'production',
   port: num('PORT', 4000),
+  // Allowed browser origins for CORS (REST + Socket.IO). Trailing slashes are stripped
+  // because the browser's Origin header never has one — a "…vercel.app/" entry would
+  // otherwise silently fail to match and block the request.
   clientOrigins: (process.env.CLIENT_ORIGINS ?? '*')
     .split(',')
-    .map((o) => o.trim())
+    .map((o) => o.trim().replace(/\/+$/, ''))
     .filter(Boolean),
 
   mongoUri: required('MONGODB_URI', 'mongodb://127.0.0.1:27017/quickbite'),
