@@ -12,9 +12,10 @@ async function bootstrap() {
   const server = http.createServer(app);
   initSocket(server);
 
-  server.listen(env.port, () => {
-    logger.info(`QuickBite API listening on http://localhost:${env.port} (${env.nodeEnv})`);
-    logger.info(`Socket.IO ready on ws://localhost:${env.port}`);
+  // Bind to 0.0.0.0 so the platform's proxy (Render, etc.) can reach the server.
+  server.listen(env.port, '0.0.0.0', () => {
+    logger.info(`QuickBite API listening on port ${env.port} (${env.nodeEnv})`);
+    logger.info('Socket.IO ready');
   });
 
   const shutdown = (signal: string) => {

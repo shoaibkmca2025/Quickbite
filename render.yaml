@@ -1,0 +1,44 @@
+# Render Blueprint for the QuickBite backend (Express + MongoDB + Socket.IO).
+# In Render: New + → Blueprint → pick this repo. Then fill the env vars marked `sync: false`.
+services:
+  - type: web
+    name: quickbite-backend
+    runtime: node
+    rootDir: backend
+    plan: free
+    buildCommand: npm install && npm run build
+    startCommand: npm start
+    healthCheckPath: /api/health
+    autoDeploy: true
+    envVars:
+      - key: NODE_ENV
+        value: production
+      # MongoDB Atlas connection string, e.g.
+      # mongodb+srv://USER:PASS@cluster0.xxxx.mongodb.net/quickbite
+      - key: MONGODB_URI
+        sync: false
+      # Comma-separated Vercel URLs of the two frontends (no trailing slash), e.g.
+      # https://quickbite-restaurant.vercel.app,https://quickbite-app.vercel.app
+      - key: CLIENT_ORIGINS
+        sync: false
+      - key: JWT_ACCESS_SECRET
+        generateValue: true
+      - key: JWT_REFRESH_SECRET
+        generateValue: true
+      - key: JWT_ACCESS_EXPIRES
+        value: 15m
+      - key: JWT_REFRESH_EXPIRES
+        value: 30d
+      # Keep mock OTP/payments on until you wire real providers (otherwise login/checkout will fail).
+      - key: OTP_DEV_MODE
+        value: "true"
+      - key: PAYMENT_DEV_MODE
+        value: "true"
+      - key: DEFAULT_DELIVERY_FEE
+        value: "29"
+      - key: PACKAGING_FEE
+        value: "10"
+      - key: TAX_RATE
+        value: "0.05"
+      - key: PLATFORM_COMMISSION_RATE
+        value: "0.15"

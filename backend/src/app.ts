@@ -11,6 +11,10 @@ import { notFound, errorHandler } from './middleware/error';
 export function createApp(): Application {
   const app = express();
 
+  // Render (and most PaaS) sit behind a reverse proxy. Trust the first proxy hop so
+  // client IPs (used by rate limiting) and protocol are read from X-Forwarded-* headers.
+  app.set('trust proxy', 1);
+
   app.use(helmet());
   app.use(
     cors({
