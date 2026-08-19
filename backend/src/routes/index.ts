@@ -1,4 +1,5 @@
 import { Router } from 'express';
+import { dbState } from '../config/db';
 import authRoutes from '../modules/auth/auth.routes';
 import restaurantRoutes from '../modules/restaurant/restaurant.routes';
 import menuRoutes from '../modules/menu/menu.routes';
@@ -10,7 +11,12 @@ import adminRoutes from '../modules/admin/admin.routes';
 
 const router = Router();
 
-router.get('/health', (_req, res) => res.json({ success: true, message: 'QuickBite API healthy' }));
+// Render polls this as the service health check. It reports the database state too, so a
+// half-up service (process listening, Mongo unreachable) is visible without reading logs.
+router.get('/health', (_req, res) => {
+  const db = dbState();
+  res.json({ success: true, message: 'QuickBite API healthy', db, uptime: process.uptime() });
+});
 
 router.use('/auth', authRoutes);
 router.use('/restaurants', restaurantRoutes);

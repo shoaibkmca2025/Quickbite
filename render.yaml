@@ -13,8 +13,15 @@ services:
     envVars:
       - key: NODE_ENV
         value: production
-      # MongoDB Atlas connection string, e.g.
-      # mongodb+srv://USER:PASS@cluster0.xxxx.mongodb.net/quickbite
+      # MongoDB Atlas connection string. Get the CURRENT one from
+      # Atlas -> Database -> Connect -> Drivers; do not reuse an old string, because a
+      # deleted or renamed cluster keeps no DNS record and the deploy then fails with
+      # "querySrv ENOTFOUND _mongodb._tcp.<cluster>.mongodb.net".
+      #   mongodb+srv://USER:PASS@cluster0.xxxx.mongodb.net/quickbite?retryWrites=true&w=majority
+      # Paste the value WITHOUT surrounding quotes, replace <db_password> with the real
+      # password, and percent-encode any of @ : / ? # [ ] % it contains.
+      # Also required: Atlas -> Network Access -> allow 0.0.0.0/0, since Render's free-plan
+      # outbound IPs are not static.
       - key: MONGODB_URI
         sync: false
       # Comma-separated Vercel URLs of the two frontends (no trailing slash), e.g.

@@ -2,25 +2,73 @@ import dotenv from 'dotenv';
 
 dotenv.config();
 
-function required(name: string, fallback?: string): string {
-  const value = process.env[name] ?? fallback;
+const isProd = process.env.NODE_ENV === 'production';
+
+/**
+ * Values pasted into a hosting dashboard often arrive wrapped in quotes or with a trailing
+ * newline. Those characters end up inside hostnames and secrets and surface later as
+ * confusing DNS or auth errors, so strip them before anything reads the value. An empty
+ * value is treated as unset rather than as a valid empty string.
+ */
+function read(name: string): string | undefined {
+  const raw = process.env[name];
+  if (raw === undefined) return undefined;
+  let cleaned = raw.trim();
+  const quote = cleaned[0];
+  if ((quote === '"' || quote === "'") && cleaned.length > 1 && cleaned.endsWith(quote)) {
+    cleaned = cleaned.slice(1, -1).trim();
+  }
+  return cleaned === '' ? undefined : cleaned;
+}
+
+/**
+ * The fallback is a development convenience only. In production a missing value is a
+ * misconfiguration — booting with a localhost database or a well-known "dev" JWT secret is
+ * worse than refusing to start, so production requires the variable to be set explicitly.
+ */
+function required(name: string, devFallback?: string): string {
+  const value = read(name) ?? (isProd ? undefined : devFallback);
   if (value === undefined) {
-    throw new Error(`Missing required environment variable: ${name}`);
+    throw new Error(
+      isProd
+        ? `Missing required environment variable: ${name}. Set it in your host's dashboard (Render → the service → Environment) and redeploy.`
+        : `Missing required environment variable: ${name}`,
+    );
   }
   return value;
 }
 
 function num(name: string, fallback: number): number {
-  const raw = process.env[name];
-  if (raw === undefined || raw === '') return fallback;
+  const raw = read(name);
+  if (raw === undefined) return fallback;
   const parsed = Number(raw);
   return Number.isNaN(parsed) ? fallback : parsed;
 }
 
 function bool(name: string, fallback: boolean): boolean {
-  const raw = process.env[name];
+  const raw = read(name);
   if (raw === undefined) return fallback;
   return raw.toLowerCase() === 'true';
+}
+
+/** Catch the mistakes that produce unreadable driver errors much later in startup. */
+function mongoUri(): string {
+  const uri = required('MONGODB_URI', 'mongodb://127.0.0.1:27017/quickbite');
+
+  if (!/^mongodb(\+srv)?:\/\//i.test(uri)) {
+    throw new Error('MONGODB_URI must start with "mongodb://" or "mongodb+srv://".');
+  }
+  if (/<[^>]+>/.test(uri)) {
+    throw new Error(
+      'MONGODB_URI still contains an Atlas placeholder such as <db_password>. Replace it with the real value.',
+    );
+  }
+  if (isProd && /(127\.0\.0\.1|localhost)/.test(uri)) {
+    throw new Error(
+      'MONGODB_URI points at localhost in production. Set it to your MongoDB Atlas connection string.',
+    );
+  }
+  return uri;
 }
 
 export const env = {
@@ -32,13 +80,13 @@ export const env = {
   //  - strip trailing slashes (the browser's Origin header never has one)
   //  - add "https://" if the scheme is missing (so "foo.vercel.app" works like the full URL)
   // Wildcards (e.g. "https://*.vercel.app") and "*" are passed through. See config/cors.ts.
-  clientOrigins: (process.env.CLIENT_ORIGINS ?? '*')
+  clientOrigins: (read('CLIENT_ORIGINS') ?? '*')
     .split(',')
     .map((o) => o.trim().replace(/\/+$/, ''))
     .filter(Boolean)
     .map((o) => (o === '*' || o.includes('://') ? o : `https://${o}`)),
 
-  mongoUri: required('MONGODB_URI', 'mongodb://127.0.0.1:27017/quickbite'),
+  mongoUri: mongoUri(),
 
   jwt: {
     accessSecret: required('JWT_ACCESS_SECRET', 'dev-access-secret'),
