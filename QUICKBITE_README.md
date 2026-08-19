@@ -29,7 +29,7 @@ production-shaped application and are self-contained.)
 | Backend | Node, Express, TypeScript, Mongoose (MongoDB), Socket.IO, JWT, Zod |
 | Mobile  | Expo, React Native, Expo Router, Zustand, Socket.IO client |
 | Web     | Vite, React, TypeScript, React Router, Zustand, Socket.IO client |
-| Auth    | OTP (phone) for customers/riders · email+password for restaurant/admin · JWT access+refresh · role-based access control |
+| Auth    | Email+password for every role · OTP (phone) for customers/riders · JWT access+refresh · role-based access control |
 | Realtime| Socket.IO rooms per user / restaurant / rider / order |
 
 ---
@@ -43,7 +43,7 @@ Prerequisites: **Node 18+** and **MongoDB** (local on `27017`, or a free Atlas U
 cd backend
 cp .env.example .env        # set MONGODB_URI if not using local default
 npm install
-npm run seed                # demo restaurants, menu, users, coupon
+npm run seed                # demo restaurants, menu, users, coupon, sample orders
 npm run dev                 # http://localhost:4000
 ```
 
@@ -73,21 +73,32 @@ npx expo start              # open in Expo Go / emulator
 
 | Role | Where | Credentials |
 |------|-------|-------------|
-| Customer | Mobile | phone `9000000001` (OTP shown in app + backend logs) |
-| Rider | Mobile | phone `9000000003` |
+| Customer | Mobile | `user@quickbite.test` / `user123` — or phone `9000000001` + OTP |
+| Rider | Mobile | `rider@quickbite.test` / `rider123` — or phone `9000000003` + OTP |
 | Restaurant | Web | `owner@quickbite.test` / `owner123` (Gourmet Kitchen) |
 | Admin / Ops | Web | `admin@quickbite.test` / `admin123` |
+
+The mobile app accepts either sign-in method — pick **Email & password** or **Phone OTP**
+on the login screen. With OTP, the code is returned in the API response while
+`OTP_DEV_MODE=true`, so no SMS provider is needed.
+
+`npm run seed` wipes every collection and rebuilds the whole demo marketplace (restaurants,
+menus, coupon, and four orders spanning the lifecycle). To (re)create just these accounts on
+a database that already holds real data, run `npm run seed:accounts` instead — it upserts
+the three logins and touches nothing else.
+
+**Change these passwords before putting the deployment in front of anyone.**
 
 ---
 
 ## See it work end-to-end (the demo script)
 
-1. **Customer (mobile)** — log in as `9000000001`, open **Gourmet Kitchen**, add items,
+1. **Customer (mobile)** — log in as `user@quickbite.test` / `user123`, open **Gourmet Kitchen**, add items,
    apply coupon `WELCOME50`, choose UPI/COD, **place order**, land on live tracking.
 2. **Restaurant (web)** — the order **pops up instantly** under *Incoming* / *Live Orders*.
    Accept → Start Prep → **Mark Ready**.
 3. On "Ready" the backend **auto-assigns the online rider** (Deepak).
-4. **Rider (mobile)** — log in as `9000000003`, see the assignment, tap
+4. **Rider (mobile)** — log in as `rider@quickbite.test` / `rider123`, see the assignment, tap
    *Picked Up → On the way → Delivered*.
 5. The **customer's tracking screen updates live** at every step; after delivery they can
    **rate** the order. The **Ops Console** reflects GMV, live orders, and lets you refund.

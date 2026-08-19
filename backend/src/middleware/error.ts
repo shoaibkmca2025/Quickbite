@@ -49,6 +49,6 @@ export function errorHandler(
     success: false,
     message,
     ...(details ? { details } : {}),
-    ...(env.isProd ? {} : { stack: err instanceof Error ? err.stack : undefined }),
+    ...(env.exposeErrorStack && err instanceof Error ? { stack: err.stack } : {}),
   });
 }

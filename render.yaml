@@ -11,13 +11,19 @@ services:
     healthCheckPath: /api/health
     autoDeploy: true
     envVars:
+      # Required. Without it the API keeps development fallbacks on and leaks stack traces.
       - key: NODE_ENV
         value: production
+      # Must stay false/unset in production — stack traces expose server paths.
+      - key: EXPOSE_ERROR_STACK
+        value: "false"
       # MongoDB Atlas connection string. Get the CURRENT one from
       # Atlas -> Database -> Connect -> Drivers; do not reuse an old string, because a
       # deleted or renamed cluster keeps no DNS record and the deploy then fails with
       # "querySrv ENOTFOUND _mongodb._tcp.<cluster>.mongodb.net".
       #   mongodb+srv://USER:PASS@cluster0.xxxx.mongodb.net/quickbite?retryWrites=true&w=majority
+      # Keep the /quickbite database name in the path — the string Atlas hands you ends in
+      # `/?appName=...` with no database, which silently uses `test` instead.
       # Paste the value WITHOUT surrounding quotes, replace <db_password> with the real
       # password, and percent-encode any of @ : / ? # [ ] % it contains.
       # Also required: Atlas -> Network Access -> allow 0.0.0.0/0, since Render's free-plan

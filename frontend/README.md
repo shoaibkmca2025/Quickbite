@@ -34,9 +34,16 @@ allows all origins in dev.
 
 ## Demo logins
 
-- **Customer:** phone `9000000001` (or any 10-digit number to create a new account).
-  In dev the OTP is auto-filled (also printed in the backend console).
-- **Rider:** phone `9000000003`.
+The login screen offers two modes — **Email & password** and **Phone OTP**.
+
+| Role | Email & password | Phone OTP |
+|------|------------------|-----------|
+| Customer | `user@quickbite.test` / `user123` | `9000000001` |
+| Rider | `rider@quickbite.test` / `rider123` | `9000000003` |
+
+Picking **I am hungry** / **I am a rider** prefills the matching demo account, so sign-in
+works without typing. Any other 10-digit number creates a new account through OTP; in dev
+the code is auto-filled (also printed in the backend console).
 
 ## Structure (Expo Router)
 
@@ -59,9 +66,9 @@ src/
 ## End-to-end demo
 
 1. Start backend (`npm run seed` then `npm run dev`) and the restaurant web portal.
-2. Log in here as customer `9000000001`, place an order at **Gourmet Kitchen**.
+2. Log in here as customer `user@quickbite.test` / `user123`, place an order at **Gourmet Kitchen**.
 3. Watch it pop up instantly on the restaurant PC (web portal → Dashboard/Incoming).
 4. Accept → Start Prep → Mark Ready on the web. When "Ready", it auto-assigns the online
    rider (Deepak).
-5. Log in on another device/emulator as rider `9000000003`, mark picked-up → on the way →
+5. Log in on another device/emulator as rider `rider@quickbite.test` / `rider123`, mark picked-up → on the way →
    delivered. The customer's tracking screen updates live at every step.

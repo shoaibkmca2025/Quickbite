@@ -51,9 +51,31 @@ function bool(name: string, fallback: boolean): boolean {
   return raw.toLowerCase() === 'true';
 }
 
+export const DEFAULT_DB_NAME = 'quickbite';
+
+/**
+ * The "Connect" dialog in Atlas hands out a string with no database in the path
+ * (`...mongodb.net/?appName=Cluster0`). Mongo then silently uses the default `test`
+ * database, so seeding one machine and running the API on another quietly lands the data
+ * in two different places. Pin the name instead of inheriting that default.
+ */
+function withDbName(uri: string): string {
+  const [beforeQuery, ...queryParts] = uri.split('?');
+  const query = queryParts.length ? `?${queryParts.join('?')}` : '';
+
+  // Everything after the host list is the database path (may be absent or just "/").
+  const schemeEnd = uri.indexOf('://') + 3;
+  const hostStart = beforeQuery.indexOf('@', schemeEnd) + 1 || schemeEnd;
+  const slash = beforeQuery.indexOf('/', hostStart);
+
+  if (slash === -1) return `${beforeQuery}/${DEFAULT_DB_NAME}${query}`;
+  if (beforeQuery.slice(slash + 1) === '') return `${beforeQuery}${DEFAULT_DB_NAME}${query}`;
+  return uri;
+}
+
 /** Catch the mistakes that produce unreadable driver errors much later in startup. */
 function mongoUri(): string {
-  const uri = required('MONGODB_URI', 'mongodb://127.0.0.1:27017/quickbite');
+  const uri = required('MONGODB_URI', `mongodb://127.0.0.1:27017/${DEFAULT_DB_NAME}`);
 
   if (!/^mongodb(\+srv)?:\/\//i.test(uri)) {
     throw new Error('MONGODB_URI must start with "mongodb://" or "mongodb+srv://".');
@@ -68,7 +90,7 @@ function mongoUri(): string {
       'MONGODB_URI points at localhost in production. Set it to your MongoDB Atlas connection string.',
     );
   }
-  return uri;
+  return withDbName(uri);
 }
 
 export const env = {
@@ -87,6 +109,10 @@ export const env = {
     .map((o) => (o === '*' || o.includes('://') ? o : `https://${o}`)),
 
   mongoUri: mongoUri(),
+
+  // Stack traces in HTTP responses expose server paths and internals, so this fails closed:
+  // it must be switched on deliberately, and an unset or wrong NODE_ENV cannot leak them.
+  exposeErrorStack: bool('EXPOSE_ERROR_STACK', false),
 
   jwt: {
     accessSecret: required('JWT_ACCESS_SECRET', 'dev-access-secret'),

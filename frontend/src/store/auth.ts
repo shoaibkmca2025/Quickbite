@@ -7,6 +7,7 @@ interface AuthState {
   user: AuthUser | null;
   bootstrapping: boolean;
   bootstrap: () => Promise<void>;
+  login: (email: string, password: string) => Promise<void>;
   requestOtp: (phone: string) => Promise<{ devCode?: string }>;
   verifyOtp: (phone: string, code: string, name?: string, role?: Role) => Promise<void>;
   refreshUser: () => Promise<void>;
@@ -31,6 +32,23 @@ export const useAuth = create<AuthState>((set) => ({
       await tokenStore.clear();
       set({ user: null, bootstrapping: false });
     }
+  },
+
+  // Email + password sign-in. The API accepts this for every role, but this app only has
+  // customer and rider screens, so staff accounts are turned away here rather than landing
+  // on an empty tab bar.
+  login: async (email, password) => {
+    const res = await api.post<{ user: AuthUser; accessToken: string; refreshToken: string }>(
+      '/auth/login',
+      { email: email.trim().toLowerCase(), password },
+      { auth: false }
+    );
+    if (res.data.user.role !== 'customer' && res.data.user.role !== 'rider') {
+      throw new Error('This app is for customers and riders. Use the web portal for staff accounts.');
+    }
+    await tokenStore.set(res.data.accessToken, res.data.refreshToken);
+    set({ user: res.data.user });
+    await connectSocket();
   },
 
   requestOtp: async (phone) => {
